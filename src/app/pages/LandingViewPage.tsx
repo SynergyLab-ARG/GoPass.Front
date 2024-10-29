@@ -9,6 +9,7 @@ import LatestEntries from "../views/LatestEntries.tsx"
 export const LandingView = () => {
   const { t } = useTranslation()
 
+
   return (
     <>
       <Navbar />

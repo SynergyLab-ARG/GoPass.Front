@@ -7,10 +7,12 @@ import { Link, useNavigate } from "react-router-dom"
 
 import notTicketsImage from "/img/soldout.png"
 import { useGetTicketsForSell } from "../../../hooks/useGetTicketsForSell"
+import { useUserVerifiedSms } from "../../../hooks/useVerifiedSms"
 
 import SearchBar from "./SearchBar"
 
 import { ticketStore } from "../../../store_zustand/tickets"
+
 import { Ticket } from "../../../types"
 
 type GridProps = {
@@ -27,21 +29,9 @@ export default function Grid({ viewType }: GridProps) {
 
   const [currentPage, setCurrentPage] = useState(1)
   const ticketsPerPage = viewType === "allTickets" ? 10 : 6
-  const [userVerifiedSms, setUserVerifiedSms] = useState(false)
 
-  useEffect(() => {
-    const userVerified = sessionStorage.getItem("user")
-    if (userVerified) {
-      try {
-        const user = JSON.parse(userVerified)
-        setUserVerifiedSms(user.verificadoSms === true)
-      } catch (error) {
-        setUserVerifiedSms(false)
-      }
-    } else {
-      setUserVerifiedSms(false)
-    }
-  }, [])
+  const userVerifiedSms = useUserVerifiedSms()
+
   const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([])
   const [searchQuery, setSearchQuery] = useState("")
 
