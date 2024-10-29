@@ -10,19 +10,20 @@ import { formatDate } from "../utils/formatDate"
 import VerifiedSeller from "../views/VerifiedSeller"
 
 import { ticketStore } from "../../store_zustand/tickets"
+import { userStore } from "../../store_zustand/users"
 
 export default function BuyEntryPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
   const ticket = ticketStore((state) => state.selectedTicket)
+  const user = userStore((state) => state.user)
 
   const [isChecked, setIsChecked] = useState(false)
   const [warningMessage, setWarningMessage] = useState("")
   const [isSameUser, setIsSameUser] = useState(false)
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user") || "{}")
     if (user?.id === ticket?.vendedorId) {
       setIsSameUser(true)
     }

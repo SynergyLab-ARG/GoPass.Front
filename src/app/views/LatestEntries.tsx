@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { useGetTicketsForSell } from "../../hooks/useGetTicketsForSell"
+import { useUserVerifiedSms } from "../../hooks/useVerifiedSms"
 
 import Card from "../components/UI/Card"
 import { useTranslation } from "react-i18next"
@@ -17,21 +18,8 @@ export default function LatestEntries(): JSX.Element {
   const ticketsPerPage = tickets.length + 1
   const currentPage = 1
 
-  const [userVerifiedSms, setUserVerifiedSms] = useState(false)
+  const userVerifiedSms = useUserVerifiedSms()
 
-  useEffect(() => {
-    const userVerified = sessionStorage.getItem("user")
-    if (userVerified) {
-      try {
-        const user = JSON.parse(userVerified)
-        setUserVerifiedSms(user.verificadoSms === true)
-      } catch (error) {
-        setUserVerifiedSms(false)
-      }
-    } else {
-      setUserVerifiedSms(false)
-    }
-  }, [])
   useEffect(() => {
     getTicketsForSellData(currentPage, ticketsPerPage)
   }, [currentPage, ticketsPerPage])
